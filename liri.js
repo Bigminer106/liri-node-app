@@ -6,7 +6,9 @@ const Twitter = require('twitter');
 const request = require('request');
 const spotify = new Spotify(keys.spotify);
 const client = new Twitter(keys.twitter);
-const command = process.env.slice(2);
+const command = process.env[2];
+const query = process.env.slice(3);
+var result;
 
 fs.appendFile('log.txt', result, 'utf8', (err) => {
   if (err) {
@@ -15,31 +17,30 @@ fs.appendFile('log.txt', result, 'utf8', (err) => {
 
   switch (command) {
     case 'my-tweets':
-      const queryURL = `https://www.twitter.com`;
-      const result;
-      // result += last 20 tweets
-      // console.log(tweets);
+      let resultArray = [];
+      const queryURL = `https://www.twitter.com/bigminer106/tweets&appid=${keys.twitter}&limit=20`;
+      resultArray.push(/* tweets */)
+      result = resultArray;
+      console.log(result);
       break;
 
     case 'spotify-this-song':
-      const queryURL = `https://www.spotify.com`;
-      const result;
-      // result += song info
-      // console.log(song);
+      const queryURL = `https://www.spotify.com/?q=${query}&appid=${keys.spotify}`;
+      result = [];
+      result.push(songInfo);
+      console.log(result);
       break;
 
     case 'movie-this':
-      const queryURL = `https://www.omdb.com`;
-      const result;
-      // result += OMDB info
-      // console.log(movie);
+      const queryURL = `https://www.omdbapi.com?q=${query}&appid=trilogy`;
+      // result = OMDB info
+      console.log(result);
       break;
 
-    case 'do-what-it-says':
-      const result;
-      // result += random.txt
-      // console.log(random.txt);
-      break;
+    // case 'do-what-it-says':
+    //   // result = random.txt info
+    //   console.log(result);
+    //   break;
   
     default:
       break;
