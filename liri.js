@@ -1,11 +1,11 @@
 require('dotenv').config();
-const keys = require('./keys.js');
+const keys = require('./assets/keys.js');
+const fs = require('fs');
 const Spotify = require('node-spotify-api');
 const Twitter = require('twitter');
 const request = require('request');
 const spotify = new Spotify(keys.spotify);
 const client = new Twitter(keys.twitter);
-const fs = require('fs');
 const command = process.env.slice(2);
 
 fs.appendFile('log.txt', result, 'utf8', (err) => {
