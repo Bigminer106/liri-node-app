@@ -17,91 +17,76 @@ const arr = Object.keys(obj).map(key => {
 });
 
 // command & query constants
-const command = process.env[2];
+const command = arr[2];
 const query = arr.slice(3);
 
 fs.appendFile('log.txt', result, 'utf8', (err) => {
-  if (err) throw err;
-
-  switch (command) {
-    case 'my-tweets':
-      let urlTweet = `https://www.twitter.com/bigminer106/tweets&appid=${client}&limit=20`;
+  if (err) {
+    throw err;
+  } else if (command === 'my-tweets') {
+    console.log('Oi, Twitter...');
+    let urlTweet = `https://www.twitter.com/bigminer106/tweets&appid=${client}&limit=20`;
+    
+    request(urlTweet, (err, res, body) => {
+      if (err) {
+        throw err;
+      } else if (!err && res.statusCode === 200) {
+        result = JSON.stringify(body, null, 2);
+        fs.writeFile('./log.txt', result, 'utf8', (err) => {
+          if (err) {
+            throw err;
+          };
+          console.log('Written!');
+        });
+      }
+    });
+  } else if (command === 'spotify-this-song') {
+    console.log('How about some tunes?');
+    let urlSpot = `https://www.spotify.com/?q=${query}&appid=${spotify}`;
+    
+    request(urlSpot, (err, res, body) => {
+      if (err) {
+        throw err;
+      } else if (!err && res.statusCode === 200) {
+        result = JSON.stringify(body, null, 2);
+        fs.writeFile('./log.txt', result, 'utf8', (err) => {
+          if (err) {
+            throw err;
+          };
+          console.log('Written!');
+        });
+      }
+    });
+  } else if (command === 'movie-this') {
+    console.log('Movie Night!');
+    let urlOMDB = `https://www.omdbapi.com?q=${query}&appid=trilogy`;
       
-      request(urlTweet, (err, res, body) => {
-        if (err) {
-          throw err;
-        } else if (!err && res.statusCode === 200) {
-          result = JSON.stringify(body, null, 2);
-          fs.writeFileSync('./log.txt', result, 'utf8', (err) => {
-            if (err) {
-              throw err;
-            } else {
-              console.log('Written!');
-            };
-          });
-        }
-      });
-
-      break;
-
-    case 'spotify-this-song':
-      let urlSpot = `https://www.spotify.com/?q=${query}&appid=${spotify}`;
-      
-      request(urlSpot, (err, res, body) => {
-        if (err) {
-          throw err;
-        } else if (!err && res.statusCode === 200) {
-          result = JSON.stringify(body, null, 2);
-          fs.writeFileSync('./log.txt', result, 'utf8', (err) => {
-            if (err) {
-              throw err;
-            } else {
-              console.log('Written!');
-            };
-          });
-        }
-      });
-      
-      break;
-
-    case 'movie-this':
-      let urlOMDB = `https://www.omdbapi.com?q=${query}&appid=trilogy`;
-      
-      request(urlOMDB, (err, res, body) => {
-        if (err) {
-          throw err;
-        } else if (!err && res.statusCode === 200) {
-          result = JSON.stringify(body, null, 2);
-          fs.writeFileSync('./log.txt', result, 'utf8', (err) => {
-            if (err) {
-              throw err;
-            } else {
-              console.log('Written!');
-            };
-          });
-        }
-      })
-
-      break;
-
-    case 'do-what-it-says':
-      fs.readFile('./assets/random.txt', 'utf8', err => {
-        if (err) {
-          throw err;
-        } else {
-          fs.writeFileSync('./log.txt', result, 'utf8', (err) => {
-            if (err) {
-              throw err;
-            } else {
-              console.log('Written!');
-            };
-          });
-        }
-      });
-
-      break;
-  
-    default:
-      break;
+    request(urlOMDB, (err, res, body) => {
+      if (err) {
+        throw err;
+      } else if (!err && res.statusCode === 200) {
+        result = JSON.stringify(body, null, 2);
+        fs.writeFile('./log.txt', result, 'utf8', (err) => {
+          if (err) {
+            throw err;
+          };
+          console.log('Written!');
+        });
+      }
+    })
+  } else if (command === 'do-what-it-says') {
+    console.log('Doing it...');
+    fs.readFile('./assets/random.txt', 'utf8', err => {
+      if (err) {
+        throw err;
+      } else {
+        fs.writeFile('./log.txt', result, 'utf8', (err) => {
+          if (err) {
+            throw err;
+          }
+          console.log('Written!');
+        });
+      }
+    });
   };
 });
