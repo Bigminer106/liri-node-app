@@ -25,28 +25,40 @@ fs.appendFile('log.txt', result, 'utf8', (err) => {
 
   switch (command) {
     case 'my-tweets':
-      let urlTweet = `https://www.twitter.com/bigminer106/tweets&appid=${keys.twitter}&limit=20`;
+      let urlTweet = `https://www.twitter.com/bigminer106/tweets&appid=${client}&limit=20`;
       
       request(urlTweet, (err, res, body) => {
         if (err) {
           throw err;
         } else if (!err && res.statusCode === 200) {
           result = JSON.stringify(body, null, 2);
-          console.log(result);
+          fs.writeFileSync('./log.txt', result, 'utf8', (err) => {
+            if (err) {
+              throw err;
+            } else {
+              console.log('Written!');
+            };
+          });
         }
       });
 
       break;
 
     case 'spotify-this-song':
-      let urlSpot = `https://www.spotify.com/?q=${query}&appid=${keys.spotify}`;
+      let urlSpot = `https://www.spotify.com/?q=${query}&appid=${spotify}`;
       
       request(urlSpot, (err, res, body) => {
         if (err) {
           throw err;
         } else if (!err && res.statusCode === 200) {
           result = JSON.stringify(body, null, 2);
-          console.log(result);
+          fs.writeFileSync('./log.txt', result, 'utf8', (err) => {
+            if (err) {
+              throw err;
+            } else {
+              console.log('Written!');
+            };
+          });
         }
       });
       
@@ -59,19 +71,31 @@ fs.appendFile('log.txt', result, 'utf8', (err) => {
         if (err) {
           throw err;
         } else if (!err && res.statusCode === 200) {
-          result = JSON.stringify(result, null, 2);
-          console.log(result);
+          result = JSON.stringify(body, null, 2);
+          fs.writeFileSync('./log.txt', result, 'utf8', (err) => {
+            if (err) {
+              throw err;
+            } else {
+              console.log('Written!');
+            };
+          });
         }
       })
 
       break;
 
     case 'do-what-it-says':
-      fs.readFile('random.txt', 'utf8', err => {
+      fs.readFile('./assets/random.txt', 'utf8', err => {
         if (err) {
           throw err;
         } else {
-          console.log(result);
+          fs.writeFileSync('./log.txt', result, 'utf8', (err) => {
+            if (err) {
+              throw err;
+            } else {
+              console.log('Written!');
+            };
+          });
         }
       });
 
