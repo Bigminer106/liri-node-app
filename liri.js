@@ -19,8 +19,8 @@ const arr = Object.keys(process.env).map(key => {
 const command = process.env[2];
 const query = arr.slice(3);
 
-// Result constant
-const result = '';
+// Result variable
+var result = '';
 
 // These console.logs work, but not the way I thought they did.
 // console.log(spotify);
